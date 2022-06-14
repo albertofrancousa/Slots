@@ -1,4 +1,5 @@
 ﻿using SlotsEngine.Domain;
+using SlotsEngine.Evaluation;
 using SlotsEngine.Xml;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,21 @@ namespace SlotsConsole
 
 		static void Main(string[] args)
 		{
+			var slotMachine = LoadGameDefinition(GameDefinitionPath);
+			var generator = new Generator();
+
+			var slotPlayer = new SlotPlayer();
+			generator.Clear();
+			var betAmount = 1;
+			var _ = slotPlayer.Play(slotMachine, generator, betAmount);
+		}
+
+		private static SlotMachine LoadGameDefinition(string path)
+		{
 			var slotMachineFactory = new SlotMachineFactoryFromXml();
-			var document = XDocument.Load(GameDefinitionPath);
-			var _ = slotMachineFactory.CreateSlotMachineFromXml(document);
+			var document = XDocument.Load(path);
+			var slotMachine = slotMachineFactory.CreateSlotMachineFromXml(document);
+			return slotMachine;
 		}
 	}
-
 }

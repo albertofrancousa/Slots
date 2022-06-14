@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace SlotsEngine.Domain
 {
@@ -6,9 +7,11 @@ namespace SlotsEngine.Domain
 	{
 		public string Name { get; }
 
-		public IEnumerable<ISymbol> Symbols { get; }
+		public IList<ISymbol> Symbols { get; }
 
-		public Reel(string name, IEnumerable<ISymbol> symbols)
+		public int Length => Symbols.Count();
+
+		public Reel(string name, IList<ISymbol> symbols)
 		{
 			Name = name;
 			Symbols = symbols;
