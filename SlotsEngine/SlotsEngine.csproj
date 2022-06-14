@@ -41,8 +41,70 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Symbol.cs" />
+    <Compile Include="AutoGenXmlTest\Game.cs">
+      <SubType>code</SubType>
+    </Compile>
+    <Compile Include="AutoGenXmlTest\GameFactory.cs" />
+    <Compile Include="Domain\BetInfo.cs" />
+    <Compile Include="Domain\IBetInfo.cs" />
+    <Compile Include="Domain\IBetInfoFactory.cs" />
+    <Compile Include="Domain\IPay.cs" />
+    <Compile Include="Domain\IPayFactory.cs" />
+    <Compile Include="Domain\IPayline.cs" />
+    <Compile Include="Domain\IPaylineFactory.cs" />
+    <Compile Include="Domain\IPaylines.cs" />
+    <Compile Include="Domain\IPaylinesFactory.cs" />
+    <Compile Include="Domain\IPayTable.cs" />
+    <Compile Include="Domain\IPayTableFactory.cs" />
+    <Compile Include="Domain\IReel.cs" />
+    <Compile Include="Domain\IReelFactory.cs" />
+    <Compile Include="Domain\IReels.cs" />
+    <Compile Include="Domain\IReelsFactory.cs" />
+    <Compile Include="Domain\ISymbol.cs" />
+    <Compile Include="Domain\ISymbolFactory.cs" />
+    <Compile Include="Domain\ISymbolSet.cs" />
+    <Compile Include="Domain\ISymbolSetFactory.cs" />
+    <Compile Include="Domain\IVisibleArea.cs" />
+    <Compile Include="Domain\IVisibleAreaFactory.cs" />
+    <Compile Include="Domain\Pay.cs" />
+    <Compile Include="Domain\Paylines.cs" />
+    <Compile Include="Domain\PayTable.cs" />
+    <Compile Include="Domain\Reel.cs" />
+    <Compile Include="Domain\Reels.cs" />
+    <Compile Include="Domain\SymbolSet.cs" />
+    <Compile Include="Domain\SymbolSetFactory.cs" />
+    <Compile Include="Domain\VisibleArea.cs" />
+    <Compile Include="Xml\BetInfoFactoryFromXml.cs" />
+    <Compile Include="Xml\PayFactoryFromXml.cs" />
+    <Compile Include="Xml\PaylineFactoryFromXml.cs" />
+    <Compile Include="Domain\SymbolFactory.cs" />
+    <Compile Include="Xml\PaylinesFactoryFromXml.cs" />
+    <Compile Include="Xml\PayTableFactoryFromXml.cs" />
+    <Compile Include="Xml\ReelFactoryFromXml.cs" />
+    <Compile Include="Xml\ReelsFactoryFromXml.cs" />
+    <Compile Include="Xml\SymbolFactoryFromXml.cs" />
+    <Compile Include="Domain\Payline.cs" />
+    <Compile Include="Properties\Settings1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings1.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\Symbol.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Xml\SymbolSetFactoryFromXml.cs" />
+    <Compile Include="Xml\VisibleAreaFactoryFromXml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\GameDefinition.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Properties\Settings1.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
