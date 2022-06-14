@@ -46,6 +46,8 @@
     </Compile>
     <Compile Include="AutoGenXmlTest\GameFactory.cs" />
     <Compile Include="Domain\BetInfo.cs" />
+    <Compile Include="Domain\ISlotMachine.cs" />
+    <Compile Include="Domain\SlotMachine.cs" />
     <Compile Include="Domain\IBetInfo.cs" />
     <Compile Include="Domain\IBetInfoFactory.cs" />
     <Compile Include="Domain\IPay.cs" />
@@ -75,6 +77,7 @@
     <Compile Include="Domain\SymbolSetFactory.cs" />
     <Compile Include="Domain\VisibleArea.cs" />
     <Compile Include="Xml\BetInfoFactoryFromXml.cs" />
+    <Compile Include="Xml\SlotMachineFactoryFromXml.cs" />
     <Compile Include="Xml\PayFactoryFromXml.cs" />
     <Compile Include="Xml\PaylineFactoryFromXml.cs" />
     <Compile Include="Domain\SymbolFactory.cs" />

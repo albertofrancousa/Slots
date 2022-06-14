@@ -49,5 +49,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SlotsEngine\SlotsEngine.csproj">
+      <Project>{AA1E564B-1156-43DD-BAB3-692096279671}</Project>
+      <Name>SlotsEngine</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
