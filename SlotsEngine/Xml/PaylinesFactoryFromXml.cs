@@ -1,12 +1,16 @@
 ﻿using SlotsEngine.Domain;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace SlotsEngine.Xml
 {
 	public class PaylinesFactoryFromXml : IPaylinesFactory
 	{
-		public IPaylines CreatePaylines(XElement element)
+		public IPaylines CreatePaylines(XDocument document)
 		{
+			var elements = document.Root.Elements("Paylines");
+			var element = elements.FirstOrDefault();
+
 			var name = element.Attribute("name").Value;
 			var paylines = new Paylines(name);
 

@@ -1,16 +1,18 @@
 ﻿using SlotsEngine.Domain;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace SlotsEngine.Xml
 {
 	public class SymbolSetFactoryFromXml : ISymbolSetFactory
 	{
-		public ISymbolSet CreateSymbols(XElement element)
+		public ISymbolSet CreateSymbols(XDocument document)
 		{
-			var name = element.Attribute("name").Value;
-			var symbolItems = new List<ISymbol>();
+			var elements = document.Root.Elements("Symbols");
+			var element = elements.FirstOrDefault();
 
+			var symbolItems = new List<ISymbol>();
 			var symbolFactory = new SymbolFactoryFromXml();
 			var symbolElements = element.Elements("Symbol");
 
@@ -20,6 +22,7 @@ namespace SlotsEngine.Xml
 				symbolItems.Add(symbol);
 			}
 
+			var name = element.Attribute("name").Value;
 			var symbols = new SymbolSet(name, symbolItems);
 			return symbols;
 		}

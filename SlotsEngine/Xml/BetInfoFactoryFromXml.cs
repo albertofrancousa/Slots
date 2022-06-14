@@ -10,8 +10,11 @@ namespace SlotsEngine.Xml
 {
 	public class BetInfoFactoryFromXml : IBetInfoFactory
 	{
-		public IBetInfo CreateBetInfo(XElement element)
+		public IBetInfo CreateBetInfo(XDocument document)
 		{
+			var elements = document.Root.Elements("BetInfo");
+			var element = elements.FirstOrDefault(); 
+
 			var amountValue = element.Attribute("Amount").Value;
 			var amount = int.Parse(amountValue);
 

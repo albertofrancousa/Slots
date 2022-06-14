@@ -1,13 +1,17 @@
 ﻿using SlotsEngine.Domain;
 using System.Collections;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace SlotsEngine.Xml
 {
 	public class ReelsFactoryFromXml : IReelsFactory
 	{
-		public IReels CreateReels(XElement element)
+		public IReels CreateReels(XDocument document)
 		{
+			var elements = document.Root.Elements("Reels");
+			var element = elements.FirstOrDefault();
+
 			var name = element.Attribute("name").Value;
 			var reels = new Reels(name);
 

@@ -10,8 +10,11 @@ namespace SlotsEngine.Xml
 {
 	public class VisibleAreaFactoryFromXml : IVisibleAreaFactory
 	{
-		public IVisibleArea CreateVisibleArea(XElement element)
+		public IVisibleArea CreateVisibleArea(XDocument document)
 		{
+			var elements = document.Root.Elements("VisibleArea");
+			var element = elements.FirstOrDefault();
+
 			var rows = GetRows(element);
 			var columns = GetColumns(element);
 			var visibleArea = new VisibleArea(rows, columns);

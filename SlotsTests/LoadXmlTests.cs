@@ -17,11 +17,9 @@ namespace SlotsTests
 		[TestMethod]
 		public void CreateBetInfoFromXml()
 		{
-			var xdoc = XDocument.Load(GameDefinitionPath);
-			var gameElement = xdoc.Root;
-			var betInfoElement = gameElement.Element("BetInfo");
 			var factory = new BetInfoFactoryFromXml();
-			var betInfo = factory.CreateBetInfo(betInfoElement);
+			var xdoc = XDocument.Load(GameDefinitionPath);
+			var betInfo = factory.CreateBetInfo(xdoc);
 			Assert.IsNotNull(betInfo);
 			Assert.AreEqual(100, betInfo.Amount);
 		}
@@ -29,11 +27,9 @@ namespace SlotsTests
 		[TestMethod]
 		public void CreateVisibleAreaFromXml()
 		{
-			var xdoc = XDocument.Load(GameDefinitionPath);
-			var gameElement = xdoc.Root;
-			var visibleAreaElement = gameElement.Element("VisibleArea");
 			var factory = new VisibleAreaFactoryFromXml();
-			var visibleArea = factory.CreateVisibleArea(visibleAreaElement);
+			var xdoc = XDocument.Load(GameDefinitionPath);
+			var visibleArea = factory.CreateVisibleArea(xdoc);
 			Assert.AreEqual(3, visibleArea.Rows);
 			Assert.AreEqual(3, visibleArea.Columns);
 		}
@@ -41,11 +37,9 @@ namespace SlotsTests
 		[TestMethod]
 		public void CreatePaylinesFromXml()
 		{
-			var xdoc = XDocument.Load(GameDefinitionPath);
-			var gameElement = xdoc.Root;
-			var paylinesElement = gameElement.Element("Paylines");
 			var factory = new PaylinesFactoryFromXml();
-			var paylines = factory.CreatePaylines(paylinesElement);
+			var xdoc = XDocument.Load(GameDefinitionPath);
+			var paylines = factory.CreatePaylines(xdoc);
 			Assert.IsNotNull(paylines);
 			Assert.AreEqual("BasePayLines", paylines.Name);
 			Assert.AreEqual(5, paylines.Items.Count());
@@ -54,12 +48,9 @@ namespace SlotsTests
 		[TestMethod]
 		public void CreateSymbolSetFromXml()
 		{
-			var xdoc = XDocument.Load(GameDefinitionPath);
-			var gameElement = xdoc.Root;
-			var symbolsElement = gameElement.Element("Symbols");
-
 			var factory = new SymbolSetFactoryFromXml();
-			var symbolSet = factory.CreateSymbols(symbolsElement);
+			var xdoc = XDocument.Load(GameDefinitionPath);
+			var symbolSet = factory.CreateSymbols(xdoc);
 			Assert.IsNotNull(symbolSet);
 			Assert.AreEqual(6, symbolSet.Items.Count);
 
@@ -71,12 +62,9 @@ namespace SlotsTests
 		[TestMethod]
 		public void CreateReelsFromXml()
 		{
-			var xdoc = XDocument.Load(GameDefinitionPath);
-			var gameElement = xdoc.Root;
-			var reelsElement = gameElement.Element("Reels");
-
 			var factory = new ReelsFactoryFromXml();
-			var reels = factory.CreateReels(reelsElement);
+			var xdoc = XDocument.Load(GameDefinitionPath);
+			var reels = factory.CreateReels(xdoc);
 			Assert.IsNotNull(reels);
 			Assert.AreEqual(3, reels.Items.Count());
 			Assert.AreEqual("reel2", reels.Items.ElementAt(1).Name);
@@ -85,12 +73,9 @@ namespace SlotsTests
 		[TestMethod]
 		public void CreatePayTableFromXml()
 		{
-			var xdoc = XDocument.Load(GameDefinitionPath);
-			var gameElement = xdoc.Root;
-			var payTableElement = gameElement.Element("PayTable");
-
 			var factory = new PayTableFactoryFromXml();
-			var payTable = factory.CreatePayTable(payTableElement);
+			var xdoc = XDocument.Load(GameDefinitionPath);
+			var payTable = factory.CreatePayTable(xdoc);
 			Assert.IsNotNull(payTable);
 			Assert.AreEqual(6, payTable.Pays.Count());
 			Assert.AreEqual(700, payTable.Pays.ElementAt(2).Amount);
