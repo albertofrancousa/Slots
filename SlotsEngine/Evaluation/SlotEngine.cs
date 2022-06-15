@@ -19,9 +19,10 @@ namespace SlotsEngine.Evaluation
 			var viewArea = ReelSetSpinner.SpinReels(generator, visibleArea, reels);
 
 			// evaluate the view area
-			// return the outcome
 
+			// return the outcome
 			var payouts = GetSamplePayouts(slotMachine);
+
 			var playOutcome = new PlayOutcome(viewArea, payouts);
 			return playOutcome;
 		}

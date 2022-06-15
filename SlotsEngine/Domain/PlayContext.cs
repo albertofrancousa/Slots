@@ -21,6 +21,12 @@ namespace SlotsEngine.Domain
 			Generator = generator;
 		}
 
+		public void SetPlayerContext(IPlayer player)
+		{
+			var betAmount = SlotMachine.BetInfo.Amount;
+			SetPlayerContext(player, betAmount);
+		}
+
 		public void SetPlayerContext(IPlayer player, int betAmount)
 		{
 			Player = player;

@@ -20,16 +20,19 @@ namespace SlotsConsole
 			var slotEngine = new SlotEngine();
 			var playContext = GetPlayContext();
 			var player = GetPlayer();
+			WritePlayerInfo(player);
 
-			IPlayOutcome playOutcome = null;
-			for (var i = 0; i < 1; i++)
+			for (var i = 0; i < 7; i++)
 			{
-				var betAmount = 1;
-				playContext.SetPlayerContext(player, betAmount);
-				playOutcome = slotEngine.Play(playContext);
+				// with multithreading we could play different players
+				//playContext.SetPlayerContext(player, 10);
+				playContext.SetPlayerContext(player);
+
+				var playOutcome = slotEngine.Play(playContext);
+				var winAmount = playOutcome.WinAmount;
+				playContext.Player.Account.Deposit(winAmount);
 				WritePlayOutcome(playContext, playOutcome);
 			}
-			var _ = playOutcome;
 
 			const bool DoNotEchoKey = true;
 			Console.ReadKey(DoNotEchoKey);
@@ -60,14 +63,22 @@ namespace SlotsConsole
 			return player;
 		}
 
+		private static void WritePlayerInfo(IPlayer player)
+		{
+			var playerName = player.Name;
+			var accountBalance = player.Account.Balance;
+			Console.WriteLine($"{playerName} is playing with an initial account balance of {accountBalance}.");
+		}
+
 		private static void WritePlayOutcome(IPlayContext playContext, IPlayOutcome playOutcome)
 		{
 			var playerName = playContext.Player.Name;
 			var gameNumber = playContext.GameNumber;
 			var betAmount = playContext.BetAmount;
 			var winAmount = playOutcome.WinAmount;
+			var accountBalance = playContext.Player.Account.Balance;
 
-			Console.WriteLine($"{playerName} played game #{gameNumber} with a bet of {betAmount} and a win of {winAmount}.");
+			Console.WriteLine($"{playerName} played game #{gameNumber} with a bet of {betAmount} and a win of {winAmount}. The account balance is now {accountBalance}.");
 		}
 	}
 }
