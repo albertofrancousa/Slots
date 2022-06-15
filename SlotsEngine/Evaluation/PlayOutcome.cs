@@ -1,18 +1,24 @@
-﻿namespace SlotsEngine.Evaluation
+﻿using System.Collections.Generic;
+
+namespace SlotsEngine.Evaluation
 {
 	public class PlayOutcome : IPlayOutcome
 	{
-		public int BetAmount { get; }
-
-		public IPayout Payout { get; }
-
 		public IViewArea ViewArea { get; }
 
-		public PlayOutcome(int betAmount, IPayout payout, IViewArea viewArea)
+		public int WinAmount { get; }
+
+		public IEnumerable<IPayout> Payouts { get; }
+
+		public PlayOutcome(IViewArea viewArea, IEnumerable<IPayout> payouts)
 		{
-			BetAmount = betAmount;
-			Payout = payout;
 			ViewArea = viewArea;
+			Payouts = payouts;
+
+			foreach(var payout in payouts)
+			{
+				WinAmount += payout.Pay.Amount;
+			}
 		}
 	}
 }

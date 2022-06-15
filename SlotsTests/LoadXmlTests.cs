@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SlotsEngine;
 using SlotsEngine.AutoGenXmlTest;
-using SlotsEngine.Domain;
+using SlotsEngine.Machine;
 using SlotsEngine.Xml;
 using System;
 using System.Linq;

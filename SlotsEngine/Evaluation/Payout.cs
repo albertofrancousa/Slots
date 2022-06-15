@@ -1,4 +1,4 @@
-﻿using SlotsEngine.Domain;
+﻿using SlotsEngine.Machine;
 
 namespace SlotsEngine.Evaluation
 {

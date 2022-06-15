@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SlotsEngine.Domain;
+using SlotsEngine.Machine;
 
 namespace SlotsTests
 {

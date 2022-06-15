@@ -1,4 +1,4 @@
-﻿using SlotsEngine.Domain;
+﻿using SlotsEngine.Machine;
 using System.Linq;
 using System.Xml.Linq;
 
