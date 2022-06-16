@@ -4,7 +4,7 @@ namespace SlotsEngine.Machine
 {
 	public interface IPay
 	{
-		IEnumerable<ISymbol> ExactMatch { get; }
+		IList<ISymbol> ExactMatch { get; }
 
 		int Amount { get; }
 	}

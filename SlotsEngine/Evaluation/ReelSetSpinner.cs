@@ -1,5 +1,6 @@
 ﻿using SlotsEngine.Machine;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SlotsEngine.Evaluation
 {
@@ -8,12 +9,14 @@ namespace SlotsEngine.Evaluation
 		public static IViewArea SpinReels(IGenerator generator, IVisibleArea visibleArea, IReels reels)
 		{
 			var viewColumns = new List<IViewColumn>();
+			var reelsCount = reels.Items.Count();
 
-			foreach (var reel in reels.Items)
+			for (var reelIndex = 0; reelIndex < reelsCount; reelIndex++)
 			{
+				var reel = reels.Items[reelIndex];
 				var stop = generator.NextValue(reel.Length);
 				var symbols = GetViewSymbols(visibleArea.Rows, reel, stop);
-				var viewColumn = new ViewColumn(symbols);
+				var viewColumn = new ViewColumn(reelIndex, symbols);
 				viewColumns.Add(viewColumn);
 			}
 

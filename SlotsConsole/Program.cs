@@ -17,7 +17,6 @@ namespace SlotsConsole
 
 		static void Main(string[] args)
 		{
-			var slotEngine = new SlotEngine();
 			var playContext = GetPlayContext();
 			var player = GetPlayer();
 			WritePlayerInfo(player);
@@ -28,7 +27,8 @@ namespace SlotsConsole
 				//playContext.SetPlayerContext(player, 10);
 				playContext.SetPlayerContext(player);
 
-				var playOutcome = slotEngine.Play(playContext);
+				var playOutcome = SlotEngine.Play(playContext);
+
 				var winAmount = playOutcome.WinAmount;
 				playContext.Player.Account.Deposit(winAmount);
 				WritePlayOutcome(playContext, playOutcome);

@@ -49,6 +49,9 @@
     <Compile Include="Domain\PlayContext.cs" />
     <Compile Include="Domain\Player.cs" />
     <Compile Include="Domain\IPlayer.cs" />
+    <Compile Include="Evaluation\IPaylineView.cs" />
+    <Compile Include="Evaluation\PaylineView.cs" />
+    <Compile Include="Evaluation\ViewOfPaylines.cs" />
     <Compile Include="Machine\BetInfo.cs" />
     <Compile Include="Machine\ISlotMachine.cs" />
     <Compile Include="Machine\SlotMachine.cs" />
