@@ -1,5 +1,4 @@
 ﻿using SlotsEngine.Domain;
-using SlotsEngine.Machine;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,12 +20,9 @@ namespace SlotsEngine.Evaluation
 			var paylines = slotMachine.Paylines;
 			var viewOfPaylines = ViewOfPaylines.CreateViewOfPaylines(viewArea, paylines);
 
-			// return the payout
 			var paylineViews = viewOfPaylines.PaylineViews;
 			var pays = slotMachine.PayTable.Pays;
-			var payouts = PlayEvaluator.EvaluatePayoutOnPaylineViews(paylineViews, pays);
-			//var payouts = GetSamplePayouts(slotMachine);
-
+			_ = PaylineEvaluator.PaylineViewsMatchPays(paylineViews, pays, out IList<IPayout> payouts);
 
 			var playOutcome = new PlayOutcome(viewArea, payouts);
 			return playOutcome;
@@ -45,42 +41,5 @@ namespace SlotsEngine.Evaluation
 		//	var payouts = new List<IPayout> { payout1, payout2 };
 		//	return payouts;
 		//}
-	}
-	public class PlayEvaluator
-	{
-		public static IEnumerable<IPayout> EvaluatePayoutOnPaylineViews(IList<IPaylineView> paylineViews, IEnumerable<IPay> pays)
-		{
-			var payouts = new List<IPayout>();
-
-			foreach (var pay in pays)
-			{
-				var matchDefinitions = pay.ExactMatch.Count;
-				for (var paylineIndex = 0; paylineIndex < matchDefinitions; paylineIndex++)
-				{
-
-
-					..... count the number of matches ... create more classes
-
-
-					for (var matchIndex = 0; matchIndex < matchDefinitions; matchIndex++)
-					{
-						var matchSymbol = pay.ExactMatch[matchIndex];
-
-						var paylineView = paylineViews[paylineIndex];
-						var column = matchIndex;
-						var paylineSymbol = paylineView.Symbols[column];
-						if (matchSymbol.Equals(paylineSymbol))
-						{
-							var payline = paylineView.Payline;
-							var payout = new Payout(payline, pay);
-							payouts.Add(payout);
-						}
-					}
-
-				}
-			}
-
-			return payouts;
-		}
 	}
 }

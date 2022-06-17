@@ -7,5 +7,7 @@
 		int Deposit(int amount);
 
 		int Withdraw(int amount);
+
+		bool HasFundsForAmount(int amount);
 	}
 }

@@ -11,9 +11,7 @@ namespace SlotsEngine.Domain
 
 		public IPlayer Player { get; private set; }
 
-		public int BetAmount { get; private set; }
-
-		public int GameNumber { get; private set; }
+		public PlayStats PlayStats { get; } = new PlayStats();
 
 		public PlayContext(SlotMachine slotMachine, IGenerator generator)
 		{
@@ -21,19 +19,29 @@ namespace SlotsEngine.Domain
 			Generator = generator;
 		}
 
-		public void SetPlayerContext(IPlayer player)
+		public bool CanSetPlayerContext(IPlayer player)
 		{
-			var betAmount = SlotMachine.BetInfo.Amount;
-			SetPlayerContext(player, betAmount);
+			var betAmount = player.CurrentBetAmount;
+			var hasSufficientFunds = player.Account.HasFundsForAmount(betAmount);
+			Player = player;
+			Generator.Clear();
+			return hasSufficientFunds;
 		}
 
-		public void SetPlayerContext(IPlayer player, int betAmount)
+		public void UpdatePayout(int payout)
 		{
-			Player = player;
-			BetAmount = betAmount;
-			Player.Account.Withdraw(betAmount);
-			GameNumber++;
-			Generator.Clear();
+			var betAmount = Player.CurrentBetAmount;
+			var hasSufficientFunds = Player.Account.HasFundsForAmount(betAmount);
+			if (hasSufficientFunds)
+			{
+				Player.Account.Withdraw(betAmount);
+				Player.Account.Deposit(payout);
+			}
+			else
+			{
+				throw new System.Exception();
+			}
+			PlayStats.UpdateStats(betAmount, payout);
 		}
 	}
 }

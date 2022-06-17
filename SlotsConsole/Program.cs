@@ -14,28 +14,60 @@ namespace SlotsConsole
 	internal class Program
 	{
 		private const string GameDefinitionPath = @".\Data\GameDefinition.xml";
+		private const int GamesToPlay = 1000;
+		private const int PlayerInitialBalance = 1000;
+		private const string PlayerName = "Alberto";
+		private static readonly int MockBetAmount = 1; // the bet amount should be fixed from configuration
 
 		static void Main(string[] args)
 		{
 			var playContext = GetPlayContext();
-			var player = GetPlayer();
+			var allPlayersDefaultBetAmount = playContext.SlotMachine.BetInfo.Amount;
+			var player = Player.CreatePlayer(PlayerName, PlayerInitialBalance, allPlayersDefaultBetAmount);
 			WritePlayerInfo(player);
 
-			for (var i = 0; i < 7; i++)
+			var gamesPlayed = 0;
+			for (var i = 0; i < GamesToPlay; i++)
 			{
 				// with multithreading we could play different players
-				//playContext.SetPlayerContext(player, 10);
-				playContext.SetPlayerContext(player);
+
+				// Capture the current bet amount from the player.
+				if(MockBetAmount == 0)
+				{
+					player.ResetCurrentBetAmount();
+				} else
+				{
+					player.UpdateCurrentBetAmount(MockBetAmount);
+				}
+
+				if (!playContext.CanSetPlayerContext(player))
+				{
+					WriteInsufficientFundsMessage(playContext.Player);
+					break;
+				}
 
 				var playOutcome = SlotEngine.Play(playContext);
+				playContext.UpdatePayout(playOutcome.WinAmount);
 
-				var winAmount = playOutcome.WinAmount;
-				playContext.Player.Account.Deposit(winAmount);
-				WritePlayOutcome(playContext, playOutcome);
+				if (playOutcome.WinAmount > 0)
+				{
+					WritePlayOutcome(playContext, playOutcome);
+				}
+				gamesPlayed++;
 			}
+
+			Console.WriteLine($"Player {player.Name} signed out after playing {gamesPlayed} games with an account balance of ${player.Account.Balance}.");
 
 			const bool DoNotEchoKey = true;
 			Console.ReadKey(DoNotEchoKey);
+		}
+
+		private static void WriteInsufficientFundsMessage(IPlayer player)
+		{
+			var name = player.Name;
+			var balance = player.Account.Balance;
+			var amount = player.CurrentBetAmount;
+			Console.WriteLine($"Player {name} funds of ${balance} are insufficient for a bet of ${amount}.");
 		}
 
 		private static PlayContext GetPlayContext()
@@ -55,30 +87,22 @@ namespace SlotsConsole
 			return slotMachine;
 		}
 
-		private static IPlayer GetPlayer()
-		{
-			var playerName = "Alberto";
-			var initialBalance = 1000;
-			var player = Player.CreatePlayer(playerName, initialBalance);
-			return player;
-		}
-
 		private static void WritePlayerInfo(IPlayer player)
 		{
 			var playerName = player.Name;
 			var accountBalance = player.Account.Balance;
-			Console.WriteLine($"{playerName} is playing with an initial account balance of {accountBalance}.");
+			Console.WriteLine($"{playerName} is playing with an initial account balance of ${accountBalance}.");
 		}
 
 		private static void WritePlayOutcome(IPlayContext playContext, IPlayOutcome playOutcome)
 		{
 			var playerName = playContext.Player.Name;
-			var gameNumber = playContext.GameNumber;
-			var betAmount = playContext.BetAmount;
+			var gameNumber = playContext.PlayStats.GamesPlayed;
+			var betAmount = playContext.Player.CurrentBetAmount;
 			var winAmount = playOutcome.WinAmount;
 			var accountBalance = playContext.Player.Account.Balance;
 
-			Console.WriteLine($"{playerName} played game #{gameNumber} with a bet of {betAmount} and a win of {winAmount}. The account balance is now {accountBalance}.");
+			Console.WriteLine($"{playerName} played game #{gameNumber} with a bet of ${betAmount} and a win of ${winAmount}. The account balance is now ${accountBalance}.");
 		}
 	}
 }

@@ -34,5 +34,10 @@ namespace SlotsEngine.Domain
 			}
 			return Balance;
 		}
+
+		public bool HasFundsForAmount(int amount)
+		{
+			return Balance >= amount;
+		}
 	}
 }
