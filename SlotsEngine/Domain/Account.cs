@@ -13,31 +13,25 @@ namespace SlotsEngine.Domain
 			Balance = initialBalance;
 		}
 
-		public int Deposit(int amount)
+		public void Deposit(int amount)
 		{
 			lock (_balanceLock)
 			{
 				Balance += amount;
 			}
-			return Balance;
 		}
 
-		public int Withdraw(int amount)
+		public bool TryWithdraw(int amount)
 		{
 			lock (_balanceLock)
 			{
-				if (Balance < amount)
+				bool sufficientFunds = Balance >= amount;
+				if (sufficientFunds)
 				{
-					throw new InsufficientFundsException($"Insufficient account balance '{Balance}' to withdraw amount '{amount}'.");
+					Balance -= amount;
 				}
-				Balance -= amount;
+				return sufficientFunds;
 			}
-			return Balance;
-		}
-
-		public bool HasFundsForAmount(int amount)
-		{
-			return Balance >= amount;
 		}
 	}
 }

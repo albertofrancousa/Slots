@@ -1,4 +1,5 @@
 ﻿using SlotsEngine.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,42 @@ namespace SlotsEngine.Evaluation
 	public static class SlotEngine
 	{
 		public static IPlayOutcome Play(IPlayContext playContext)
+		{
+			IPlayOutcome playOutcome;
+
+			if (playContext.WithdrawBet())
+			{
+				playOutcome = TryPlayGame(playContext);
+				if(playOutcome is IPlayGameOutcome playGameOutcome)
+				{
+					playContext.DepositPayout(playGameOutcome.WinAmount);
+				}
+			}
+			else
+			{
+				var insufficientFundsOutcome = new InsufficientFundsOutcome(playContext.Player);
+				playOutcome = insufficientFundsOutcome;
+			}
+
+			return playOutcome;
+		}
+
+		private static IPlayOutcome TryPlayGame(IPlayContext playContext)
+		{
+			IPlayOutcome playOutcome;
+			try
+			{
+				playOutcome = PlayGame(playContext);
+			}
+			catch (Exception exception)
+			{
+				playContext.RefundBet();
+				playOutcome = new PlayExceptionOutcome(exception);
+			}
+			return playOutcome;
+		}
+
+		private static IPlayGameOutcome PlayGame(IPlayContext playContext)
 		{
 			var slotMachine = playContext.SlotMachine;
 
@@ -24,22 +61,8 @@ namespace SlotsEngine.Evaluation
 			var pays = slotMachine.PayTable.Pays;
 			_ = PaylineEvaluator.PaylineViewsMatchPays(paylineViews, pays, out IList<IPayout> payouts);
 
-			var playOutcome = new PlayOutcome(viewArea, payouts);
+			var playOutcome = new GamePlayOutcome(viewArea, payouts);
 			return playOutcome;
 		}
-
-		//private static List<IPayout> GetSamplePayouts(ISlotMachine slotMachine)
-		//{
-		//	var payline1 = slotMachine.Paylines.Items.First();
-		//	var pay1 = slotMachine.PayTable.Pays.First();
-		//	var payout1 = new Payout(payline1, pay1);
-
-		//	var payline2 = slotMachine.Paylines.Items.Last();
-		//	var pay2 = slotMachine.PayTable.Pays.Last();
-		//	var payout2 = new Payout(payline2, pay2);
-
-		//	var payouts = new List<IPayout> { payout1, payout2 };
-		//	return payouts;
-		//}
 	}
 }

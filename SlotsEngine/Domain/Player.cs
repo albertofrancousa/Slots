@@ -12,25 +12,13 @@ namespace SlotsEngine.Domain
 
 		public IAccount Account { get; }
 
-		public int DefaultBetAmount { get; }
-
-		public int CurrentBetAmount { get; private set; }
+		public int BetAmount { get; }
 
 		private Player(string name, int initialBalance, int defaultBetAmount)
 		{
 			Name = name;
 			Account = new Account(initialBalance);
-			DefaultBetAmount = defaultBetAmount;
-		}
-
-		public void UpdateCurrentBetAmount(int betAmount)
-		{
-			CurrentBetAmount = betAmount;
-		}
-
-		public void ResetCurrentBetAmount()
-		{
-			CurrentBetAmount = DefaultBetAmount;
+			BetAmount = defaultBetAmount;
 		}
 
 		public static IPlayer CreatePlayer(string name, int initialBalance, int defaultBetAmount)

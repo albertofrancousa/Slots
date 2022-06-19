@@ -6,12 +6,6 @@
 
 		IAccount Account { get; }
 
-		int DefaultBetAmount { get; }
-
-		int CurrentBetAmount { get; }
-
-		void UpdateCurrentBetAmount(int betAmount);
-
-		void ResetCurrentBetAmount();
+		int BetAmount { get; }
 	}
 }

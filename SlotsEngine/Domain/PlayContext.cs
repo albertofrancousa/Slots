@@ -13,35 +13,36 @@ namespace SlotsEngine.Domain
 
 		public PlayStats PlayStats { get; } = new PlayStats();
 
-		public PlayContext(SlotMachine slotMachine, IGenerator generator)
+		public PlayContext(ISlotMachine slotMachine, IGenerator generator)
 		{
 			SlotMachine = slotMachine;
 			Generator = generator;
 		}
 
-		public bool CanSetPlayerContext(IPlayer player)
+		public void SetPlayerInContext(IPlayer player)
 		{
-			var betAmount = player.CurrentBetAmount;
-			var hasSufficientFunds = player.Account.HasFundsForAmount(betAmount);
 			Player = player;
 			Generator.Clear();
+		}
+
+		public bool WithdrawBet()
+		{
+			var betAmount = Player.BetAmount;
+			var hasSufficientFunds = Player.Account.TryWithdraw(betAmount);
 			return hasSufficientFunds;
 		}
 
-		public void UpdatePayout(int payout)
+		public void DepositPayout(int payout)
 		{
-			var betAmount = Player.CurrentBetAmount;
-			var hasSufficientFunds = Player.Account.HasFundsForAmount(betAmount);
-			if (hasSufficientFunds)
-			{
-				Player.Account.Withdraw(betAmount);
-				Player.Account.Deposit(payout);
-			}
-			else
-			{
-				throw new System.Exception();
-			}
+			var betAmount = Player.BetAmount;
 			PlayStats.UpdateStats(betAmount, payout);
+			Player.Account.Deposit(payout);
+		}
+
+		public void RefundBet()
+		{
+			var betAmount = Player.BetAmount;
+			Player.Account.Deposit(betAmount);
 		}
 	}
 }

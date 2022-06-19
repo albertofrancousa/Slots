@@ -4,10 +4,8 @@
 	{
 		int Balance { get; }
 
-		int Deposit(int amount);
+		void Deposit(int amount);
 
-		int Withdraw(int amount);
-
-		bool HasFundsForAmount(int amount);
+		bool TryWithdraw(int amount);
 	}
 }

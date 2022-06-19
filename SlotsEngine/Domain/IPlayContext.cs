@@ -13,8 +13,12 @@ namespace SlotsEngine.Domain
 
 		PlayStats PlayStats { get; }
 
-		bool CanSetPlayerContext(IPlayer player);
+		void SetPlayerInContext(IPlayer player);
 
-		void UpdatePayout(int payout);
+		bool WithdrawBet();
+
+		void DepositPayout(int payout);
+
+		void RefundBet();
 	}
 }
