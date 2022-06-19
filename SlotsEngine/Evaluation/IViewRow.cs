@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SlotsEngine.Evaluation
 {
-	public interface IViewColumn
+	public interface IViewRow
 	{
 		int Index { get; }
 

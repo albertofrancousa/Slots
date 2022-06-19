@@ -8,7 +8,7 @@ namespace SlotsEngine.Machine
 
 		public string Name { get; }
 
-		public IEnumerable<IReel> Items => _reels;
+		public IList<IReel> Items => _reels;
 
 		public Reels(string name)
 		{

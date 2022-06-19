@@ -3,15 +3,13 @@ using System.Collections.Generic;
 
 namespace SlotsEngine.Evaluation
 {
-	public class ViewColumn : IViewColumn
+	public class PaylineView : IPaylineView
 	{
-		public int Index { get; }
-
+		public IPayline Payline { get; }
 		public IList<ISymbol> Symbols { get; }
-
-		public ViewColumn(int index, IList<ISymbol> symbols)
+		public PaylineView(IPayline payline, IList<ISymbol> symbols)
 		{
-			Index = index;
+			Payline = payline;
 			Symbols = symbols;
 		}
 	}

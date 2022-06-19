@@ -8,7 +8,7 @@ namespace SlotsEngine.Machine
 
 		public string Name { get; }
 
-		public IEnumerable<IPayline> Items => _paylines;
+		public IList<IPayline> Items => _paylines;
 
 		public Paylines(string name)
 		{

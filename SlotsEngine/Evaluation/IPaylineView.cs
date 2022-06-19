@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace SlotsEngine.Evaluation
 {
-	public interface IViewColumn
+	public interface IPaylineView
 	{
-		int Index { get; }
+		IPayline Payline { get; }
 
 		IList<ISymbol> Symbols { get; }
 	}

@@ -12,15 +12,18 @@ namespace SlotsEngine.Domain
 
 		public IAccount Account { get; }
 
-		private Player(string name, int initialBalance)
+		public int BetAmount { get; }
+
+		private Player(string name, int initialBalance, int defaultBetAmount)
 		{
 			Name = name;
 			Account = new Account(initialBalance);
+			BetAmount = defaultBetAmount;
 		}
 
-		public static IPlayer CreatePlayer(string name, int initialBalance)
+		public static IPlayer CreatePlayer(string name, int initialBalance, int defaultBetAmount)
 		{
-			var player = new Player(name, initialBalance);
+			var player = new Player(name, initialBalance, defaultBetAmount);
 			return player;
 		}
 	}

@@ -5,16 +5,20 @@ namespace SlotsEngine.Domain
 {
 	public interface IPlayContext
 	{
-		int BetAmount { get; }
+		ISlotMachine SlotMachine { get; }
 
 		IGenerator Generator { get; }
 
 		IPlayer Player { get; }
 
-		ISlotMachine SlotMachine { get; }
+		PlayStats PlayStats { get; }
 
-		int GameNumber { get; }
+		void SetPlayerInContext(IPlayer player);
 
-		void SetPlayerContext(IPlayer player, int betAmount);
+		bool WithdrawBet();
+
+		void DepositPayout(int payout);
+
+		void RefundBet();
 	}
 }

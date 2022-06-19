@@ -6,6 +6,6 @@ namespace SlotsEngine.Machine
 	{
 		string Name { get; }
 
-		IEnumerable<IPayline> Items { get; }
+		IList<IPayline> Items { get; }
 	}
 }

@@ -2,7 +2,7 @@
 
 namespace SlotsEngine.Evaluation
 {
-	public class PlayOutcome : IPlayOutcome
+	public class GamePlayOutcome : IPlayGameOutcome
 	{
 		public IViewArea ViewArea { get; }
 
@@ -10,7 +10,7 @@ namespace SlotsEngine.Evaluation
 
 		public IEnumerable<IPayout> Payouts { get; }
 
-		public PlayOutcome(IViewArea viewArea, IEnumerable<IPayout> payouts)
+		public GamePlayOutcome(IViewArea viewArea, IEnumerable<IPayout> payouts)
 		{
 			ViewArea = viewArea;
 			Payouts = payouts;

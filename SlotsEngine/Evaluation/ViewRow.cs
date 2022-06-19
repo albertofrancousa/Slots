@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace SlotsEngine.Evaluation
 {
-	public class ViewColumn : IViewColumn
+	public class ViewRow : IViewRow
 	{
 		public int Index { get; }
 
 		public IList<ISymbol> Symbols { get; }
 
-		public ViewColumn(int index, IList<ISymbol> symbols)
+		public ViewRow(int index, IList<ISymbol> symbols)
 		{
 			Index = index;
 			Symbols = symbols;
