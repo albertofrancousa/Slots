@@ -10,6 +10,8 @@ namespace SlotsConsole
 {
 	internal static class ConsoleGamePlayer
 	{
+		private static readonly bool _showLosses = Properties.Settings1.Default.ShowLosses;
+
 		public static IPlayOutcome PlayGame(IPlayContext playContext)
 		{
 
@@ -18,8 +20,7 @@ namespace SlotsConsole
 			switch (playOutcome)
 			{
 				case IPlayGameOutcome playGameOutcome:
-					var showLosses = Properties.Settings1.Default.ShowLosses;
-					if (playGameOutcome.WinAmount > 0 || showLosses)
+					if (playGameOutcome.WinAmount > 0 || _showLosses)
 					{
 						ConsoleWriter.WritePlayOutcome(playContext, playGameOutcome);
 						ConsoleWriter.WriteWinOutcome(playContext, playGameOutcome);
@@ -27,7 +28,7 @@ namespace SlotsConsole
 					break;
 
 				case IInsufficientFundsOutcome _:
-					ConsoleWriter.WriteInsufficientFundsMessage(playContext.Player);
+					ConsoleWriter.WriteInsufficientFundsMessage(playContext);
 					break;
 
 				case IPlayExceptionOutcome exceptionOutcome:

@@ -12,14 +12,14 @@ namespace SlotsTests
 	[TestClass]
 	public class EvaluationTests
 	{
+			const string GameDefinitionPath = @".\Data\GameDefinition.xml";
 		private IPlayGameOutcome _playOutcome;
 
 		[TestInitialize]
 		public void GetPlayOutcome()
 		{
-			var player = Player.CreatePlayer("Alberto", 1500, 100);
-			var playContext = GetPlayContext();
-			playContext.SetPlayerInContext(player);
+			var player = Player.CreatePlayer("Alberto", 1500);
+			var playContext = PlayContextFactory.CreatePlayContext(player, GameDefinitionPath);
 			var playOutcome = SlotEngine.Play(playContext);
 			if (playOutcome is IPlayGameOutcome gameOutcome)
 			{
@@ -29,23 +29,6 @@ namespace SlotsTests
 			{
 				throw new Exception("Cannot create play game outcome.");
 			}
-		}
-
-		public IPlayContext GetPlayContext()
-		{
-			var slotMachine = GetSlotMachine();
-			var generator = new Generator();
-			var playContext = new PlayContext(slotMachine, generator);
-			return playContext;
-		}
-
-		private ISlotMachine GetSlotMachine()
-		{
-			const string GameDefinitionPath = @".\Data\GameDefinition.xml";
-			var slotMachineFactory = new SlotMachineFactoryFromXml();
-			var document = XDocument.Load(GameDefinitionPath);
-			var slotMachine = slotMachineFactory.CreateSlotMachineFromXml(document);
-			return slotMachine;
 		}
 
 		[TestMethod]

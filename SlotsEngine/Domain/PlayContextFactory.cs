@@ -7,11 +7,11 @@ namespace SlotsEngine.Domain
 {
 	public static class PlayContextFactory
 	{
-		public static IPlayContext CreatePlayContext(string gameDefinitionPath)
+		public static IPlayContext CreatePlayContext(IPlayer player, string gameDefinitionPath)
 		{
 			var slotMachine = LoadGameDefinition(gameDefinitionPath);
 			var generator = new Generator();
-			var playContext = new PlayContext(slotMachine, generator);
+			var playContext = new PlayerContext(player, slotMachine, generator);
 			return playContext;
 		}
 
