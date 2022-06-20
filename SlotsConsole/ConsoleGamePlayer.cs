@@ -23,7 +23,6 @@ namespace SlotsConsole
 					if (playGameOutcome.WinAmount > 0 || _showLosses)
 					{
 						ConsoleWriter.WritePlayOutcome(playContext, playGameOutcome);
-						ConsoleWriter.WriteWinOutcome(playContext, playGameOutcome);
 					}
 					break;
 

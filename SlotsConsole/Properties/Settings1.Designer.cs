@@ -49,7 +49,7 @@ namespace SlotsConsole.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1200")]
+        [global::System.Configuration.DefaultSettingValueAttribute("6000")]
         public int PlayerInitialBalance {
             get {
                 return ((int)(this["PlayerInitialBalance"]));
@@ -80,6 +80,18 @@ namespace SlotsConsole.Properties {
             }
             set {
                 this["ShowLosses"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Alberto,Jay,Carlos,Chris")]
+        public string MultiPlayers {
+            get {
+                return ((string)(this["MultiPlayers"]));
+            }
+            set {
+                this["MultiPlayers"] = value;
             }
         }
     }

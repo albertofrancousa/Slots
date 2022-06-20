@@ -1,16 +1,19 @@
 ﻿using SlotsEngine.Evaluation;
+using System.Collections.Generic;
 
 namespace SlotsEngine.Domain
 {
 	public class Account : IAccount
 	{
 		private static readonly object _balanceLock = new object();
+		private readonly List<int> _transactions = new List<int>();
 
 		public int Balance { get; private set; }
 
 		internal Account(int initialBalance)
 		{
 			Balance = initialBalance;
+			_transactions.Add(initialBalance);
 		}
 
 		public void Deposit(int amount)
@@ -18,6 +21,7 @@ namespace SlotsEngine.Domain
 			lock (_balanceLock)
 			{
 				Balance += amount;
+				_transactions.Add(amount);
 			}
 		}
 
@@ -29,6 +33,7 @@ namespace SlotsEngine.Domain
 				if (sufficientFunds)
 				{
 					Balance -= amount;
+					_transactions.Add(-amount);
 				}
 				return sufficientFunds;
 			}
