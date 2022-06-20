@@ -2,16 +2,30 @@
 using System;
 using System.Linq;
 using SlotsEngine.Domain;
+using System.Collections.Generic;
 
 namespace SlotsConsole
 {
 	internal static class ConsoleWriter
 	{
+		private static readonly object _writeLock = new object();
+
+		public static void WritePlayersInfo(int gamesToPlay, IEnumerable<IPlayer> players)
+		{
+			foreach (var player in players)
+			{
+				WritePlayerInfo(gamesToPlay, player);
+			}
+		}
+
 		public static void WritePlayerInfo(int gamesToPlay, IPlayer player)
 		{
 			var playerName = player.Name;
 			var accountBalance = player.Account.Balance;
-			Console.WriteLine($"{playerName} will now play {gamesToPlay} games with an initial account balance of ${accountBalance}.");
+			lock (_writeLock)
+			{
+				Console.WriteLine($"\r\n{playerName} will now play {gamesToPlay} games with an initial account balance of ${accountBalance}.");
+			}
 		}
 
 		public static void WriteInsufficientFundsMessage(IPlayContext playContext)
@@ -19,20 +33,30 @@ namespace SlotsConsole
 			var name = playContext.Player.Name;
 			var balance = playContext.Player.Account.Balance;
 			var betAmount = playContext.SlotMachine.BetInfo.Amount;
-			Console.WriteLine($"\r\nPlayer {name} funds of ${balance} are insufficient for a bet of ${betAmount}.");
+			lock (_writeLock)
+			{
+				Console.WriteLine($"\r\nPlayer {name} funds of ${balance} are insufficient for a bet of ${betAmount}.");
+			}
 		}
 
 		public static void WriteExceptionMessage(Exception exception)
 		{
-			Console.WriteLine("\r\nThe following exception was thrown during play evaluation:");
-			Console.WriteLine(exception.ToString());
+			lock (_writeLock)
+			{
+				Console.WriteLine("\r\nThe following exception was thrown during play evaluation:");
+				Console.WriteLine(exception.ToString());
+			}
 		}
 
 		public static void WritePlayOutcome(IPlayContext playContext, IPlayGameOutcome playGameOutcome)
 		{
-			WritePlayerBet(playContext);
-			WriteViewArea(playGameOutcome);
-			WriteWinningPaylines(playGameOutcome);
+			lock (_writeLock)
+			{
+				WritePlayerBet(playContext);
+				WriteViewArea(playGameOutcome);
+				WriteWinningPaylines(playGameOutcome);
+				WriteWinOutcome(playContext, playGameOutcome);
+			}
 		}
 
 		private static void WritePlayerBet(IPlayContext playContext)
@@ -66,7 +90,7 @@ namespace SlotsConsole
 			}
 		}
 
-		public static void WriteWinOutcome(IPlayContext playContext, IPlayGameOutcome playOutcome)
+		private static void WriteWinOutcome(IPlayContext playContext, IPlayGameOutcome playOutcome)
 		{
 			var playerName = playContext.Player.Name;
 			var winAmount = playOutcome.WinAmount;
@@ -81,19 +105,34 @@ namespace SlotsConsole
 			}
 		}
 
+		public static void WriteFinalMessages(IEnumerable<IPlayContext> playContexts)
+		{
+			foreach (var playContext in playContexts)
+			{
+				WriteFinalMessage(playContext);
+			}
+		}
+
 		public static void WriteFinalMessage(IPlayContext playContext)
 		{
 			var playerName = playContext.Player.Name;
 			var gamesPlayed = playContext.PlayStats.GamesPlayed;
 			var accountBalance = playContext.Player.Account.Balance;
-			Console.WriteLine($"\r\nPlayer {playerName} signed out after playing {gamesPlayed} games with an account balance of ${accountBalance}.");
+			lock (_writeLock)
+			{
+				Console.WriteLine($"\r\nPlayer {playerName} signed out after playing {gamesPlayed} games with an account balance of ${accountBalance}.");
+			}
 		}
 
 		public static void PressAnyKeyToEnd()
 		{
 			const bool DoNotEchoKey = true;
-			Console.Write("\r\nThe game concluded. Press any key to terminate the console...");
-			Console.ReadKey(DoNotEchoKey);
+			lock (_writeLock)
+			{
+				Console.Write("\r\nThe game concluded. Press any key to terminate the console...");
+				Console.ReadKey(DoNotEchoKey);
+				Console.WriteLine("\r\n");
+			}
 		}
 	}
 }

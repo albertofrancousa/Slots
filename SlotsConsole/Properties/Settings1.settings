@@ -9,13 +9,16 @@
       <Value Profile="(Default)">100</Value>
     </Setting>
     <Setting Name="PlayerInitialBalance" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1200</Value>
+      <Value Profile="(Default)">6000</Value>
     </Setting>
     <Setting Name="PlayerName" Type="System.String" Scope="User">
       <Value Profile="(Default)">Alberto</Value>
     </Setting>
     <Setting Name="ShowLosses" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="MultiPlayers" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Alberto,Jay,Carlos,Chris</Value>
     </Setting>
   </Settings>
 </SettingsFile>

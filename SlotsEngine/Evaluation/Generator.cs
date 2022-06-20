@@ -11,14 +11,9 @@ namespace SlotsEngine.Evaluation
 
 		public IList<int> Values => _values;
 
-		public Generator()
+		public Generator(Random random)
 		{
-			_random = new Random();
-		}
-
-		public Generator(int seed)
-		{
-			_random = new Random(seed);
+			_random = random;
 		}
 
 		public int NextValue(int maxValue)
