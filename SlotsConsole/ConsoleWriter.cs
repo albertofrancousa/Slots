@@ -14,12 +14,12 @@ namespace SlotsConsole
 			Console.WriteLine($"{playerName} will now play {gamesToPlay} games with an initial account balance of ${accountBalance}.");
 		}
 
-		public static void WriteInsufficientFundsMessage(IPlayer player)
+		public static void WriteInsufficientFundsMessage(IPlayContext playContext)
 		{
-			var name = player.Name;
-			var balance = player.Account.Balance;
-			var amount = player.BetAmount;
-			Console.WriteLine($"\r\nPlayer {name} funds of ${balance} are insufficient for a bet of ${amount}.");
+			var name = playContext.Player.Name;
+			var balance = playContext.Player.Account.Balance;
+			var betAmount = playContext.SlotMachine.BetInfo.Amount;
+			Console.WriteLine($"\r\nPlayer {name} funds of ${balance} are insufficient for a bet of ${betAmount}.");
 		}
 
 		public static void WriteExceptionMessage(Exception exception)
@@ -38,7 +38,7 @@ namespace SlotsConsole
 		private static void WritePlayerBet(IPlayContext playContext)
 		{
 			var playerName = playContext.Player.Name;
-			var betAmount = playContext.Player.BetAmount;
+			var betAmount = playContext.SlotMachine.BetInfo.Amount;
 			var gameNumber = playContext.PlayStats.GamesPlayed;
 			Console.WriteLine($"\r\n{playerName} bets ${betAmount} on game #{gameNumber}:");
 		}

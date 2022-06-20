@@ -14,12 +14,9 @@ namespace SlotsConsole
 	{
 		static void Main()
 		{
+			var player = ConsolePlayerFactory.CreatePlayerInstance();
+			var playContext = ConsolePlayContextFactory.CreateInstance(player);
 			var gamesToPlay = Properties.Settings1.Default.GamesToPlay;
-			var playContext = ConsolePlayContextFactory.CreateInstance();
-
-			// Any player can be set to context
-			var player = ConsolePlayerFactory.CreatePlayerInstance(playContext);
-			playContext.SetPlayerInContext(player);
 
 			ConsoleWriter.WritePlayerInfo(gamesToPlay, playContext.Player);
 
@@ -34,16 +31,6 @@ namespace SlotsConsole
 
 			ConsoleWriter.WriteFinalMessage(playContext);
 			ConsoleWriter.PressAnyKeyToEnd();
-		}
-
-		static void SinglePlayer(IPlayer player)
-		{
-
-		}
-
-		static void MultiPlayer()
-		{
-
 		}
 	}
 }
